@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <link rel="stylesheet" type="text/css" href="index.css"> -->
+</head>
+
+<body>
+    <p>Choose two countries:</p>
+
+    <!-- <div>
+        <select>
+            <option value="Country 1">Country 1</option>
+            <option value="USA">USA</option>
+            <option value="Iran">Iran</option>
+            <option value="Iraq">Iraq</option>
+        </select>
+        and
+        <select>
+            <option value="Country 2">Country 2</option>
+            <option value="USA">USA</option>
+            <option value="Iran">Iran</option>
+            <option value="Iraq">Iraq</option>
+        </select>
+    </div>
+
+    <div>
+        <button>Go!</button>
+    </div> -->
+
+    <div>
+        <select id="countries1select" name="countries1">
+            <option value="usa">USA</option>
+            <option value="iran">Iran</option>
+            <option value="iraq">Iraq</option>
+            <option value="russia">Russia</option>
+        </select>
+        <br><br>
+        <select id="countries2select" name="countries2">
+            <option value="usa">USA</option>
+            <option value="iran">Iran</option>
+            <option value="iraq">Iraq</option>
+            <option value="russia">Russia</option>
+        </select>
+        <br><br>
+        <button id="submit-button">submit</button>
+    </div>
+
+    <!-- <div>
+        <a href="https://www.bbc.com/news/uk-51077816" target="_blank">https://www.bbc.com/news/uk-51077816</a>
+    </div> -->
+
+    <p>Click the button to display breaking news</p>
+    <div id="SampleDIV">
+        News Article Titles:
+    </div>
+    <button onclick="AppendP()">Top and Breaking News</button>
+
+    <p>Click the button to display news specific to the keyword "Iran"</p>
+    <div id="Iran">
+        Iran Titles:
+    </div>
+    <button onclick="AppendIran()">Iran News</button>
+
+    <script>
+        const submitButton = document.getElementById("submit-button");
+        submitButton.addEventListener("click", onSubmitClick);
+
+        function AppendP() {
+            fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=f03e83ddffd14a66b934ee401f346663')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((myJson) => {
+
+                    var articles = myJson.articles;
+
+                    for (i = 0; i < articles.length; i++) {
+                        var paragraph = document.createElement("P");
+                        paragraph.innerHTML = articles[i].title;
+                        document.getElementById("SampleDIV").appendChild(paragraph);
+                    }
+                });
+        }
+
+        function getInputs() {
+            const firstCountry = document.getElementById("countries1select").value
+            const secondCountry = document.getElementById("countries2select").value
+
+            return {
+                firstCountry: firstCountry,
+                secondCountry: secondCountry,
+            }
+        }
+
+        function onSubmitClick() {
+            console.log("lmao")
+            console.log(getInputs())
+        }
+
+        function AppendIran() {
+            fetch('https://newsapi.org/v2/everything?q=Iran&from=2020-01-13&sortBy=popularity&apiKey=f03e83ddffd14a66b934ee401f346663')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((myJson) => {
+
+                    var articlesIran = myJson.articles;
+
+                    for (i = articlesIran.length - 1; i >= 0; i--) {
+                        var paragraph = document.createElement("P");
+                        var link = document.createElement("A");
+
+                        paragraph.innerHTML = articlesIran[i].title;
+                        link.innerHTML = articlesIran[i].url;
+                        link.setAttribute("href", articlesIran[i].url)
+
+                        document.getElementById("Iran").appendChild(paragraph);
+                        document.getElementById("Iran").appendChild(link);
+                    }
+                });
+        }
+    </script>
+</body>
