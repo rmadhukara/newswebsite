@@ -1,75 +1,78 @@
 <!DOCTYPE html>
 <html>
 
+<style>
+    body {
+        font-family: 'Lato', sans-serif;
+    }
+
+    #para {
+        text-weight: bold;
+        font-size: 25px;
+    }
+
+    .font {
+        /* box-shadow: 5px 10px; */
+        border-style: outset;
+    }
+</style>
+
 <head>
-    <!-- <link rel="stylesheet" type="text/css" href="index.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <p>Choose two countries:</p>
 
-    <!-- <div>
-        <select>
-            <option value="Country 1">Country 1</option>
-            <option value="USA">USA</option>
-            <option value="Iran">Iran</option>
-            <option value="Iraq">Iraq</option>
-        </select>
-        and
-        <select>
-            <option value="Country 2">Country 2</option>
-            <option value="USA">USA</option>
-            <option value="Iran">Iran</option>
-            <option value="Iraq">Iraq</option>
-        </select>
+    <div>
+        <select id="countries1select" name="countries1"></select>
+
+        <br><br>
+
+        <select id="countries2select" name="countries2"></select>
+
+        <br><br>
+
+        <button id="submit-button" onclick="Go()">Submit</button>
     </div>
 
-    <div>
-        <button>Go!</button>
-    </div> -->
+    <br>
 
-    <div>
-        <select id="countries1select" name="countries1">
-            <option value="usa">USA</option>
-            <option value="iran">Iran</option>
-            <option value="iraq">Iraq</option>
-            <option value="russia">Russia</option>
-        </select>
-        <br><br>
-        <select id="countries2select" name="countries2">
-            <option value="usa">USA</option>
-            <option value="iran">Iran</option>
-            <option value="iraq">Iraq</option>
-            <option value="russia">Russia</option>
-        </select>
-        <br><br>
-        <button id="submit-button">submit</button>
-    </div>
-
-    <!-- <div>
-        <a href="https://www.bbc.com/news/uk-51077816" target="_blank">https://www.bbc.com/news/uk-51077816</a>
-    </div> -->
-
-    <p>Click the button to display breaking news</p>
+    <!-- <p>Click the button to display breaking news</p>
     <div id="SampleDIV">
-        News Article Titles:
+        <b>News Article Titles:</b>
     </div>
+
+    <br>
+
     <button onclick="AppendP()">Top and Breaking News</button>
 
-    <p>Click the button to display news specific to the keyword "Iran"</p>
-    <div id="Iran">
-        Iran Titles:
-    </div>
-    <button onclick="AppendIran()">Iran News</button>
+    <br> -->
+
+    <div id="News"></div>
 
     <script>
+        countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Côte d'Ivoire", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Congo-Brazzaville)", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)", "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini (fmr. Swaziland)", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Holy See", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (formerly Burma)", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"]
+
+        for (i = 0; i < countries.length; i++) {
+            var newOption1 = document.createElement("option");
+            newOption1.setAttribute("value", countries[i]);
+            newOption1.innerHTML = countries[i];
+            document.getElementById("countries1select").appendChild(newOption1);
+
+            var newOption2 = document.createElement("option");
+            newOption2.setAttribute("value", countries[i]);
+            newOption2.innerHTML = countries[i];
+            document.getElementById("countries2select").appendChild(newOption2);
+        }
+
         const submitButton = document.getElementById("submit-button");
         submitButton.addEventListener("click", onSubmitClick);
 
         function AppendP() {
             fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=f03e83ddffd14a66b934ee401f346663')
-                .then((response) => {
-                    return response.json();
+                .then((resp) => {
+                    return resp.json();
                 })
                 .then((myJson) => {
 
@@ -94,29 +97,57 @@
         }
 
         function onSubmitClick() {
-            console.log("lmao")
             console.log(getInputs())
         }
 
-        function AppendIran() {
-            fetch('https://newsapi.org/v2/everything?q=Iran&from=2020-01-13&sortBy=popularity&apiKey=f03e83ddffd14a66b934ee401f346663')
+        function Go() {
+            var newsContainer = document.getElementById("News");
+            newsContainer.parentNode.removeChild(newsContainer);
+
+            var list = document.getElementsByTagName("body")[0];
+            var newElement = document.createElement("div");
+            newElement.setAttribute('id', "News");
+            list.appendChild(newElement);
+
+            newsContainer = document.getElementById("News");
+
+            // newsContainer.innerHTML = "<b>News pertinent to these two countries:</b>";
+
+            let country1 = encodeURIComponent(getInputs().firstCountry)
+            let country2 = encodeURIComponent(getInputs().secondCountry)
+            let date = encodeURIComponent("2020-01-13")
+
+            let requestUrl1 = `https://newsapi.org/v2/everything?q=${country1}+${country2}&from=${date}&sortBy=popularity&apiKey=f03e83ddffd14a66b934ee401f346663`
+            fetch(requestUrl1)
                 .then((response) => {
                     return response.json();
                 })
                 .then((myJson) => {
 
-                    var articlesIran = myJson.articles;
+                    var articles1 = myJson.articles;
 
-                    for (i = articlesIran.length - 1; i >= 0; i--) {
-                        var paragraph = document.createElement("P");
-                        var link = document.createElement("A");
+                    for (i = articles1.length - 1; i >= 0; i--) {
+                        var box = document.createElement("p");
+                        box.setAttribute("class", "font");
 
-                        paragraph.innerHTML = articlesIran[i].title;
-                        link.innerHTML = articlesIran[i].url;
-                        link.setAttribute("href", articlesIran[i].url)
+                        var title = document.createElement("p");
+                        title.setAttribute("id", "para");
 
-                        document.getElementById("Iran").appendChild(paragraph);
-                        document.getElementById("Iran").appendChild(link);
+                        var link = document.createElement("a");
+                        link.setAttribute("target", "_blank");
+
+                        var descrip = document.createElement("p");
+
+                        title.innerHTML = articles1[i].title;
+                        link.innerHTML = articles1[i].url;
+                        link.setAttribute("href", articles1[i].url)
+                        descrip.innerHTML = articles1[i].description
+
+                        box.appendChild(title);
+                        box.appendChild(link);
+                        box.appendChild(descrip);
+
+                        newsContainer.appendChild(box);
                     }
                 });
         }
