@@ -6,14 +6,42 @@
         font-family: 'Lato', sans-serif;
     }
 
+    #selection {
+        font-family: 'Lato', sans-serif;
+    }
+
     #para {
         text-weight: bold;
         font-size: 25px;
     }
 
     .font {
-        /* box-shadow: 5px 10px; */
         border-style: outset;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        padding: 12px;
+        margin: 12px;
+
+        display: flex;
+        flex-direction: row;
+    }
+
+    #News {
+        width: 50%;
+        float: left;
+    }
+
+    #BreakingNews {
+        width: 50%;
+        float: right;
+    }
+
+    .images {
+        padding: 12px;
+    }
+
+    .text {
+        padding: 12px;
     }
 </style>
 
@@ -24,7 +52,7 @@
 <body>
     <p>Choose two countries:</p>
 
-    <div>
+    <div id="selection">
         <select id="countries1select" name="countries1"></select>
 
         <br><br>
@@ -38,16 +66,11 @@
 
     <br>
 
-    <!-- <p>Click the button to display breaking news</p>
-    <div id="SampleDIV">
-        <b>News Article Titles:</b>
+    <div id="BreakingNews">
+        <button onclick="AppendP()">Top and Breaking News</button>
     </div>
 
     <br>
-
-    <button onclick="AppendP()">Top and Breaking News</button>
-
-    <br> -->
 
     <div id="News"></div>
 
@@ -56,7 +79,12 @@
 
         for (i = 0; i < countries.length; i++) {
             var newOption1 = document.createElement("option");
-            newOption1.setAttribute("value", countries[i]);
+            // if (countries[i].localeCompare("Congo (Congo-Brazzaville)") == 0){
+            //     newOption1.setAttribute("value", "Congo");
+            // }
+            // else {
+            //     newOption1.setAttribute("value", countries[i]);
+            // }
             newOption1.innerHTML = countries[i];
             document.getElementById("countries1select").appendChild(newOption1);
 
@@ -68,23 +96,6 @@
 
         const submitButton = document.getElementById("submit-button");
         submitButton.addEventListener("click", onSubmitClick);
-
-        function AppendP() {
-            fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=f03e83ddffd14a66b934ee401f346663')
-                .then((resp) => {
-                    return resp.json();
-                })
-                .then((myJson) => {
-
-                    var articles = myJson.articles;
-
-                    for (i = 0; i < articles.length; i++) {
-                        var paragraph = document.createElement("P");
-                        paragraph.innerHTML = articles[i].title;
-                        document.getElementById("SampleDIV").appendChild(paragraph);
-                    }
-                });
-        }
 
         function getInputs() {
             const firstCountry = document.getElementById("countries1select").value
@@ -100,18 +111,80 @@
             console.log(getInputs())
         }
 
+        function AppendP() {
+            var breakingNewsContainer = document.getElementById("BreakingNews");
+
+            breakingNewsContainer.parentNode.removeChild(breakingNewsContainer);
+
+            var list = document.getElementsByTagName("body")[0];
+
+            var newBreakingNews = document.createElement("div");
+            newBreakingNews.setAttribute('id', "BreakingNews");
+            list.appendChild(newBreakingNews);
+
+            breakingNewsContainer = document.getElementById("BreakingNews");
+
+            fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=f03e83ddffd14a66b934ee401f346663')
+                .then((resp) => {
+                    return resp.json();
+                })
+                .then((myJson) => {
+                    var articles = myJson.articles;
+
+                    for (i = 0; i < articles.length; i++) {
+                        var box = document.createElement("p");
+                        var rightBox = document.createElement("div");
+                        var leftBox = document.createElement("div");
+
+                        box.setAttribute("class", "font");
+                        rightBox.setAttribute("class", "images");
+                        leftBox.setAttribute("class", "text");
+
+                        var link = document.createElement("a");
+                        link.setAttribute("target", "_blank");
+                        link.setAttribute("id", "para");
+
+                        var descrip = document.createElement("p");
+
+                        var image = document.createElement("img");
+
+                        link.innerHTML = articles[i].title;
+                        link.setAttribute("href", articles[i].url)
+                        descrip.innerHTML = articles[i].description
+
+                        image.setAttribute("src", articles[i].urlToImage);
+                        image.setAttribute("alt", "pic");
+                        image.setAttribute("width", 120);
+
+                        rightBox.appendChild(image);
+                        leftBox.appendChild(link);
+                        leftBox.appendChild(descrip);
+
+                        box.appendChild(rightBox);
+                        box.appendChild(leftBox);
+
+                        breakingNewsContainer.appendChild(box);
+                    }
+                });
+        }
+
         function Go() {
             var newsContainer = document.getElementById("News");
+            var breakingNewsContainer = document.getElementById("BreakingNews");
+
             newsContainer.parentNode.removeChild(newsContainer);
 
             var list = document.getElementsByTagName("body")[0];
+
             var newElement = document.createElement("div");
             newElement.setAttribute('id', "News");
             list.appendChild(newElement);
 
-            newsContainer = document.getElementById("News");
+            var newBreakingNews = document.createElement("div");
+            newBreakingNews.setAttribute('id', "BreakingNews");
+            list.appendChild(newBreakingNews);
 
-            // newsContainer.innerHTML = "<b>News pertinent to these two countries:</b>";
+            newsContainer = document.getElementById("News");
 
             let country1 = encodeURIComponent(getInputs().firstCountry)
             let country2 = encodeURIComponent(getInputs().secondCountry)
@@ -124,28 +197,40 @@
                 })
                 .then((myJson) => {
 
+                    console.log(myJson);
                     var articles1 = myJson.articles;
 
                     for (i = articles1.length - 1; i >= 0; i--) {
-                        var box = document.createElement("p");
-                        box.setAttribute("class", "font");
+                        var box = document.createElement("div");
+                        var rightBox = document.createElement("div");
+                        var leftBox = document.createElement("div");
 
-                        var title = document.createElement("p");
-                        title.setAttribute("id", "para");
+                        box.setAttribute("class", "font");
+                        rightBox.setAttribute("class", "images");
+                        leftBox.setAttribute("class", "text");
 
                         var link = document.createElement("a");
                         link.setAttribute("target", "_blank");
+                        link.setAttribute("id", "para");
 
                         var descrip = document.createElement("p");
 
-                        title.innerHTML = articles1[i].title;
-                        link.innerHTML = articles1[i].url;
-                        link.setAttribute("href", articles1[i].url)
-                        descrip.innerHTML = articles1[i].description
+                        var image = document.createElement("img");
 
-                        box.appendChild(title);
-                        box.appendChild(link);
-                        box.appendChild(descrip);
+                        link.innerHTML = articles1[i].title;
+                        link.setAttribute("href", articles1[i].url);
+                        descrip.innerHTML = articles1[i].description;
+
+                        image.setAttribute("src", articles1[i].urlToImage);
+                        image.setAttribute("alt", "pic");
+                        image.setAttribute("width", 120);
+
+                        rightBox.appendChild(image);
+                        leftBox.appendChild(link);
+                        leftBox.appendChild(descrip);
+
+                        box.appendChild(rightBox);
+                        box.appendChild(leftBox);
 
                         newsContainer.appendChild(box);
                     }
