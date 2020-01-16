@@ -1,79 +1,82 @@
-<!DOCTYPE html>
 <html>
-
-<style>
+  <style>
     body {
-        font-family: 'Lato', sans-serif;
+      font-family: "Lato", sans-serif;
     }
 
     #selection {
-        font-family: 'Lato', sans-serif;
+      font-family: "Lato", sans-serif;
     }
 
     #para {
-        text-weight: bold;
-        font-size: 25px;
+      text-weight: bold;
+      font-size: 25px;
     }
 
     .font {
-        border-style: outset;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        padding: 12px;
-        margin: 12px;
+      border-style: outset;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      padding: 12px;
+      margin: 12px;
 
-        display: flex;
-        flex-direction: row;
+      display: flex;
+      flex-direction: row;
     }
 
     #News {
-        width: 50%;
-        float: left;
+      width: 50%;
+      float: left;
     }
 
     #BreakingNews {
-        width: 50%;
-        float: right;
+      width: 50%;
+      float: right;
     }
 
     .images {
-        padding: 12px;
+      padding: 12px;
     }
 
     .text {
-        padding: 12px;
+      padding: 12px;
     }
-</style>
+  </style>
 
-<head>
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-</head>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
+  <body>
+    <div id="react-root"></div>
+
     <p>Choose two countries:</p>
 
     <div id="selection">
-        <select id="countries1select" name="countries1"></select>
+      <select id="countries1select" name="countries1"></select>
 
-        <br><br>
+      <br /><br />
 
-        <select id="countries2select" name="countries2"></select>
+      <select id="countries2select" name="countries2"></select>
 
-        <br><br>
+      <br /><br />
 
-        <button id="submit-button" onclick="Go()">Submit</button>
+      <button id="submit-button" onclick="Go()">Submit</button>
     </div>
 
-    <br>
+    <br />
 
     <div id="BreakingNews">
-        <button onclick="AppendP()">Top and Breaking News</button>
+      <button onclick="AppendP()">Top and Breaking News</button>
     </div>
 
-    <br>
+    <br />
 
     <div id="News"></div>
 
-    <script src="index.js">
-    </script>
-</body>
+    <script src="index.jsx"></script>
+  </body>
+</html>
