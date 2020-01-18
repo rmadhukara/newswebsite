@@ -59,9 +59,9 @@
   </head>
 
   <body>
-    <div id="react-root"></div>
-
     <p>Choose two countries:</p>
+
+    <div id="react-root"></div>
 
     <div id="selection">
       <select id="countries1select" name="countries1"></select>
@@ -72,13 +72,13 @@
 
       <br /><br />
 
-      <button id="submit-button" onclick="Go()">Submit</button>
+      <button id="submit-button">Submit</button>
     </div>
 
     <br />
 
     <div id="BreakingNews">
-      <button onclick="AppendP()">Top and Breaking News</button>
+      <button id="top-news">Top and Breaking News</button>
     </div>
 
     <br />
@@ -86,5 +86,14 @@
     <div id="News"></div>
 
     <script src="index.jsx"></script>
+    <script>
+      document.getElementById("submit-button").addEventListener("click", () => {
+        window.asdf();
+      });
+
+      document.getElementById("top-news").addEventListener("click", () => {
+        window.AppendP();
+      });
+    </script>
   </body>
 </html>
