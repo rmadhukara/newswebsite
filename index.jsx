@@ -30,7 +30,7 @@ class Map extends React.Component {
 
   handleClick(e, countryCode) {
     if (this.state.numClicks < 2) {
-      const parentElement = document.getElementsByTagName("body");
+      const parentElement = document.getElementsByTagName("body")[0];
       const newChildElement = document.createElement("p");
       newChildElement.innerHTML = "asdf";
       parentElement.appendChild(newChildElement);
