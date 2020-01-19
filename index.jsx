@@ -30,18 +30,28 @@ class Map extends React.Component {
 
   handleClick(e, countryCode) {
     if (this.state.numClicks < 2) {
-      const parentElement = document.getElementsByTagName("body")[0];
-      const newChildElement = document.createElement("p");
-      newChildElement.innerHTML = "asdf";
-      parentElement.appendChild(newChildElement);
-
       const newMapData = this.state.mapData;
       newMapData[countryCode] = 1;
-      console.log(newMapData);
       this.setState({
         numClicks: this.state.numClicks + 1,
         mapData: newMapData
       });
+
+      const parentElement = document.getElementsByTagName("body")[0];
+      let newChildElement;
+
+      if (document.getElementById("country codes") != null) {
+        newChildElement = document.getElementById("country codes");
+      } else {
+        newChildElement = document.createElement("p");
+        newChildElement.setAttribute("id", "country codes");
+        newChildElement.setAttribute("style", "display:none");
+      }
+
+      const keys = Object.keys(this.state.mapData);
+
+      newChildElement.innerHTML = keys;
+      parentElement.appendChild(newChildElement);
     }
   }
 
@@ -72,7 +82,7 @@ class Map extends React.Component {
               cursor: "pointer"
             },
             selected: {
-              fill: "#2938bc" //color for the clicked country
+              fill: "#e4e4e4" //color for the clicked country
             },
             selectedHover: {}
           }}
@@ -81,7 +91,7 @@ class Map extends React.Component {
             regions: [
               {
                 values: this.state.mapData, //this is your data
-                scale: ["#146804", "#ff0000"], //your color game's here
+                scale: ["#146804", "#24a638"], //your color game's here
                 normalizeFunction: "polynomial"
               }
             ]
@@ -368,10 +378,6 @@ function onSubmitClick() {
   console.log(getInputs());
 }
 
-// function update(params) {
-
-// }
-
 function AppendP() {
   var breakingNewsContainer = document.getElementById("BreakingNews");
 
@@ -451,8 +457,15 @@ function Go() {
 
   newsContainer = document.getElementById("News");
 
-  let country1 = encodeURIComponent(getInputs().firstCountry);
-  let country2 = encodeURIComponent(getInputs().secondCountry);
+  var codesDictionary = document.getElementById("country codes");
+  let codesGo = codesDictionary.innerHTML;
+  var nameArr = codesGo.split(",");
+
+  let country1 = getName(nameArr[0]);
+  let country2 = getName(nameArr[1]);
+
+  // let country1 = encodeURIComponent(getInputs().firstCountry);
+  // let country2 = encodeURIComponent(getInputs().secondCountry);
   let date = encodeURIComponent("2020-01-13");
 
   let requestUrl1 = `https://newsapi.org/v2/everything?q=${country1}+${country2}&from=${date}&sortBy=popularity&apiKey=f03e83ddffd14a66b934ee401f346663`;
